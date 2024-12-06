@@ -1,0 +1,50 @@
+<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
+    <h2 class="text-2xl font-bold">{{ isEditMode ? 'Edit Room' : 'Add Room' }}</h2>
+    <form (ngSubmit)="saveRoom()">
+      <mat-form-field class="w-full">
+        <mat-label>Room ID</mat-label>
+        <input matInput placeholder="Room ID" [(ngModel)]="room.roomId" name="roomId" required>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Room Type</mat-label>
+        <mat-select placeholder="Room Type" [(ngModel)]="room.roomType" name="roomType" required>
+          <mat-option value="Standard">Standard</mat-option>
+          <mat-option value="Deluxe">Deluxe</mat-option>
+          <mat-option value="Suite">Suite</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Price</mat-label>
+        <input matInput placeholder="Price" [(ngModel)]="room.price" name="price" type="number" required>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Status</mat-label>
+        <mat-select placeholder="Status" [(ngModel)]="room.status" name="status" required>
+          <mat-option value="Available">Available</mat-option>
+          <mat-option value="Occupied">Occupied</mat-option>
+          <mat-option value="Maintenance">Maintenance</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>Bed Type</mat-label>
+        <mat-select placeholder="Bed Type" [(ngModel)]="room.bedType" name="bedType" required>
+          <mat-option value="Single">Single</mat-option>
+          <mat-option value="King">King</mat-option>
+          <mat-option value="Queen">Queen</mat-option>
+          <mat-option value="Twin">Twin</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-label>View</mat-label>
+        <mat-select placeholder="View" [(ngModel)]="room.view" name="view" required>
+          <mat-option value="City">City</mat-option>
+          <mat-option value="Sea">Sea</mat-option>
+          <mat-option value="Mountain">Mountain</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-checkbox [(ngModel)]="room.availability" name="availability">Available</mat-checkbox>
+      <div class="flex justify-end">
+        <button mat-raised-button color="primary" type="submit">{{ isEditMode ? 'Update' : 'Add' }}</button>
+      </div>
+    </form>
+  </div>

@@ -1,0 +1,23 @@
+<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
+    <h2 class="text-2xl font-bold">Register</h2>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field class="w-full">
+        <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password" required>
+      </mat-form-field>
+      <mat-form-field class="w-full">
+        <mat-select placeholder="Role" [(ngModel)]="role" name="role" required>
+          <mat-option value="Guest">Guest</mat-option>
+          <!-- Add other roles as needed -->
+        </mat-select>
+      </mat-form-field>
+      <div class="flex justify-end">
+        <button mat-raised-button color="primary" type="submit">Register</button>
+      </div>
+    </form>
+  </div>

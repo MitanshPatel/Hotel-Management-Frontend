@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+    <span>Hotel Management</span>
+    <span class="spacer"></span>
+    <ng-container *ngIf="!currentUser">
+      <button mat-button (click)="openLoginDialog()">Login</button>
+      <button mat-button (click)="openRegisterDialog()">Register</button>
+    </ng-container>
+    <ng-container *ngIf="currentUser">
+      <button mat-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+      <ng-container *ngIf="currentUser.role === 'Manager' || currentUser.role === 'Receptionist'">
+        <button mat-button [routerLink]="['/manage-rooms']">
+          <mat-icon>manage_accounts</mat-icon>
+          Manage Rooms
+        </button>
+      </ng-container>
+    </ng-container>
+  </mat-toolbar>
