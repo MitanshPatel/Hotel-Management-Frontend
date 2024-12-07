@@ -47,7 +47,7 @@ export class RegisterComponent {
 
   async onSubmit() {
     const user = {
-      userId: 0,
+      userId: Math.floor(100000 + Math.random() * 900000),
       username: this.username,
       passwordHash: this.password,
       role: this.role,
@@ -56,7 +56,7 @@ export class RegisterComponent {
     };
 
     try {
-      const data = await lastValueFrom(this.authService.register(user));
+      const data = await lastValueFrom(this.authService.adminRegister(user));
       this.dialogRef.close();
       this.snackBar.open('Registered Successfully', 'Close', {
         duration: 3000,

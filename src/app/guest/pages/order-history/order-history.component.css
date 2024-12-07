@@ -1,0 +1,36 @@
+.order-card {
+    background-color: #f9f9f9;
+    border-left: 5px solid #3f51b5;
+    margin-bottom: 1rem;
+  }
+  
+  .order-card:hover {
+    border-left-color: #303f9f;
+  }
+  
+  .mat-card-title {
+    font-size: 1.25rem !important;
+    font-weight: bold !important;
+  }
+  
+  .mat-card-subtitle {
+    font-size: 1rem !important;
+    color: #757575 !important;
+  }
+  
+  .mat-card-content p {
+    font-size: 1rem !important;
+    margin: 0.5rem 0 !important;
+  }
+  
+  .text-green-600 {
+    color: #4caf50 !important;
+  }
+  
+  .text-yellow-600 {
+    color: #ffeb3b !important;
+  }
+  
+  .text-red-600 {
+    color: #f44336 !important;
+  }

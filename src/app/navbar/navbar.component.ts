@@ -49,6 +49,33 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  navigateToHome(): void {
+    if (this.currentUser) {
+      switch (this.currentUser.role) {
+        case 'Guest':
+          this.router.navigate(['/guest']);
+          break;
+        case 'Manager':
+          this.router.navigate(['/manager']);
+          break;
+        case 'Receptionist':
+          this.router.navigate(['/receptionist']);
+          break;
+        case 'Housekeeping':
+          this.router.navigate(['/housekeeping']);
+          break;
+        case 'Admin':
+          this.router.navigate(['/admin']);
+          break;
+        default:
+          this.router.navigate(['/']);
+          break;
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
+  } 
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);

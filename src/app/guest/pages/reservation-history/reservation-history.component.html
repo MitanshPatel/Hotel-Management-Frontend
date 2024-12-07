@@ -60,6 +60,11 @@
           (click)="cancelReservation(reservation)">
           Cancel
         </button>
+        <button mat-raised-button color="primary"
+          *ngIf="reservation.status === 'Approved' && reservation.paymentStatus === 'Successful' && currentDate < parseDate(reservation.checkInDate)"
+          (click)="orderFood(reservation.reservationId)">
+          Order Food
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

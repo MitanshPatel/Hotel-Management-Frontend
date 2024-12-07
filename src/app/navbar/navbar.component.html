@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
   <span class="text-xl font-bold">Hotel Management</span>
+  <button mat-icon-button class="desktop-only !text-white" (click)="navigateToHome()">
+    <mat-icon>home</mat-icon>
+  </button>
   <span class="flex-1"></span>
   <ng-container *ngIf="!currentUser">
     <button mat-button class="desktop-only !text-white" (click)="openLoginDialog()">Login</button>
@@ -18,6 +21,14 @@
       <button mat-button class="desktop-only !text-white" [routerLink]="['/guest']">
         <mat-icon>search</mat-icon>
         Available Rooms
+      </button>
+      <button mat-button class="desktop-only !text-white" [routerLink]="['/guest/reservation-history']">
+        <mat-icon>restaurant_menu</mat-icon>
+        Order Food and Services
+      </button>
+      <button mat-button class="desktop-only !text-white" [routerLink]="['/guest/order-history']">
+        <mat-icon>receipt</mat-icon>
+        Order History
       </button>
     </ng-container>
     <ng-container *ngIf="currentUser.role === 'Manager' || currentUser.role === 'Receptionist'">
@@ -52,6 +63,14 @@
         <button mat-menu-item [routerLink]="['/guest']">
           <mat-icon>search</mat-icon>
           Available Rooms
+        </button>
+        <button mat-menu-item [routerLink]="['/guest/reservation-history']">
+          <mat-icon>restaurant_menu</mat-icon>
+          Order Food and Services
+        </button>
+        <button mat-menu-item [routerLink]="['/guest/order-history']">
+          <mat-icon>receipt</mat-icon>
+          Order History
         </button>
       </ng-container>
       <ng-container *ngIf="currentUser.role === 'Manager' || currentUser.role === 'Receptionist'">

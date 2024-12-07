@@ -1,3 +1,77 @@
-<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-    <h2 class="text-2xl font-bold">Hello Housekeeping</h2>
+<div class="p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-md space-y-8 mt-6">
+  <!-- Title -->
+  <h2 class="!text-4xl !font-bold !text-center !text-indigo-700">Housekeeping Orders</h2>
+
+  <!-- Filters -->
+  <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6">
+    <!-- Category Filter -->
+    <mat-form-field appearance="fill" class="w-full md:w-1/3">
+      <mat-label>Category</mat-label>
+      <mat-select [(ngModel)]="selectedCategory" (selectionChange)="showCategory(selectedCategory)">
+        <mat-option value="all">All</mat-option>
+        <mat-option value="food">Food</mat-option>
+        <mat-option value="services">Services</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Status Filter -->
+    <mat-form-field appearance="fill" class="w-full md:w-1/3">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="selectedStatus" (selectionChange)="showStatus(selectedStatus)">
+        <mat-option value="Pending">Pending</mat-option>
+        <mat-option value="Under Process">Under Process</mat-option>
+        <mat-option value="Completed">Completed</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
+
+  <!-- Orders List -->
+  <div *ngFor="let order of filteredOrders" class="transition-transform duration-300 cursor-pointer">
+    <mat-card class="p-4 bg-white rounded-lg shadow-lg hover:shadow-xl">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="!text-xl !font-bold !text-indigo-700">Order #{{ order.serviceId }}</h3>
+          <p class="!text-gray-500">Room ID: {{ order.roomId }}</p>
+          <p class="!text-gray-500">HouseKeeping ID: {{ order.housekeepingId }}</p>
+        </div>
+        <div>
+          <span 
+            class="!px-2 !py-1 !rounded"
+            [ngClass]="{
+              '!bg-green-100 !text-green-600': order.status === 'Completed',
+              '!bg-yellow-100 !text-yellow-600': order.status === 'Pending',
+              '!bg-blue-100 !text-blue-600': order.status === 'Under Process'
+            }"
+          >
+            {{ order.status }}
+          </span>
+        </div>
+      </div>
+      <div class="mt-4">
+        <p class="!text-gray-600"><strong>Type:</strong> {{ order.serviceType }}</p>
+        <p class="!text-gray-600"><strong>Request Time:</strong> {{ order.requestTime | date: 'short' }}</p>
+        <p class="!text-gray-600" *ngIf="order.deliveryTime"><strong>Delivery Time:</strong> {{ order.deliveryTime | date: 'short' }}</p>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="order.status === 'Pending'"
+          class="!rounded-lg !text-white !font-medium"
+          (click)="updateOrderStatus(order, 'Under Process')"
+        >
+          Mark as Under Process
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          *ngIf="order.status === 'Under Process'"
+          class="!rounded-lg !text-white !font-medium"
+          (click)="updateOrderStatus(order, 'Completed')"
+        >
+          Mark as Completed
+        </button>
+      </div>
+    </mat-card>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -36,6 +36,14 @@ export class AuthService {
 
   register(user: any) {
     return this.http.post(`${environment.apiUrl}/authenticate/register`, user);
+  }
+
+  adminRegister(user: any): Observable<any> {
+    const token = this.getLocalStorageItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    return this.http.post(`${environment.apiUrl}/authenticate/register-admin-manager`, user, { headers });
   }
 
   logout() {

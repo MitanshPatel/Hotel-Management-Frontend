@@ -1,3 +1,29 @@
 <div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-    <h2 class="text-2xl font-bold">Hello Admin</h2>
-  </div>
+  <h2 class="text-2xl font-bold">Hello Admin</h2>
+</div>
+
+<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
+  <h2 class="text-2xl font-bold">Add User</h2>
+  <form (ngSubmit)="onSubmit()">
+    <mat-form-field class="w-full">
+      <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password" required>
+    </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-select placeholder="Role" [(ngModel)]="role" name="role" required>
+        <mat-option value="Admin">Admin</mat-option>
+        <mat-option value="Manager">Manager</mat-option>
+        <mat-option value="Receptionist">Receptionist</mat-option>
+        <mat-option value="Housekeeping">Housekeeping</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="flex justify-end">
+      <button mat-raised-button color="primary" type="submit">Add User</button>
+    </div>
+  </form>
+</div>

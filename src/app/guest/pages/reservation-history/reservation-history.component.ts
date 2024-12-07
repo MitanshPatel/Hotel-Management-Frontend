@@ -5,7 +5,7 @@ import { PaymentService } from '../../../services/payment/payment.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
@@ -24,13 +24,15 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class ReservationHistoryComponent implements OnInit {
   reservations: any[] = [];
+  currentDate: Date = new Date();
 
   constructor(
     private reservationService: ReservationService,
     private roomService: RoomService,
     private paymentService: PaymentService,
     private snackBar: MatSnackBar,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -105,5 +107,14 @@ export class ReservationHistoryComponent implements OnInit {
       });
       this.loadReservations();
     });
+  }
+
+  orderFood(reservationId: number): void {
+    this.router.navigate(['/guest/order', reservationId]);
+  }
+
+  parseDate(dateString: string): Date {
+    const [day, month, year, time] = dateString.split(/[-\s:]/);
+    return new Date(`${year}-${month}-${day}`);
   }
 }

@@ -9,7 +9,7 @@
     display: inline-flex;
   }
   
-  @media (min-width: 768px) {
+  @media (min-width: 868px) {
     .desktop-only {
       display: inline-flex;
     }

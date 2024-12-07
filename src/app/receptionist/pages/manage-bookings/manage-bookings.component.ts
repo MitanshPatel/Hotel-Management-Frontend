@@ -31,19 +31,19 @@ export class ManageBookingsComponent implements OnInit {
 
   getAllBookings(): void {
     this.reservationService.getAllBookings().subscribe(data => {
-      this.bookings = data;
+      this.bookings = this.sortBookingsByCheckInDate(data);
     });
   }
 
   getPendingBookings(): void {
     this.reservationService.getPendingBookings().subscribe(data => {
-      this.bookings = data;
+      this.bookings = this.sortBookingsByCheckInDate(data);
     });
   }
 
   getApprovedBookings(): void {
     this.reservationService.getApprovedBookings().subscribe(data => {
-      this.bookings = data;
+      this.bookings = this.sortBookingsByCheckInDate(data);
     });
   }
 
@@ -74,5 +74,9 @@ export class ManageBookingsComponent implements OnInit {
     this.reservationService.updateBookingStatus(reservationId, status).subscribe(() => {
       this.filterBookings();
     });
+  }
+
+  sortBookingsByCheckInDate(bookings: any[]): any[] {
+    return bookings.sort((a, b) => new Date(b.checkInDate).getTime() - new Date(a.checkInDate).getTime());
   }
 }
