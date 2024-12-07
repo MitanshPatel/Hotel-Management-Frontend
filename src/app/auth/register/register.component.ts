@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { lastValueFrom } from 'rxjs';
 
 @Component({
@@ -25,7 +26,8 @@ import { lastValueFrom } from 'rxjs';
     MatButtonModule,
     HttpClientModule,
     RouterModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
@@ -39,7 +41,8 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    public dialogRef: MatDialogRef<RegisterComponent>
+    public dialogRef: MatDialogRef<RegisterComponent>,
+    private snackBar: MatSnackBar
   ) {}
 
   async onSubmit() {
@@ -55,9 +58,16 @@ export class RegisterComponent {
     try {
       const data = await lastValueFrom(this.authService.register(user));
       this.dialogRef.close();
+      this.snackBar.open('Registered Successfully', 'Close', {
+        duration: 3000,
+      });
       this.router.navigate(['/login']);
+
     } catch (error) {
       console.error('Registration failed', error);
+      this.snackBar.open('Registration failed: Please check your details', 'Close', {
+        duration: 3000,
+      });
     }
   }
 }

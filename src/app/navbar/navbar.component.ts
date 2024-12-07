@@ -9,13 +9,22 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
-  imports: [MatToolbarModule, MatButtonModule, MatDialogModule, CommonModule, MatIconModule, RouterModule]
+  imports: [
+    MatToolbarModule,
+    MatButtonModule,
+    MatDialogModule,
+    CommonModule,
+    MatIconModule,
+    RouterModule,
+    MatMenuModule
+  ]
 })
 export class NavbarComponent implements OnInit {
   currentUser: any;

@@ -1,0 +1,72 @@
+<div class="max-w-6xl mx-auto my-8 bg-white rounded-lg shadow-lg overflow-hidden">
+    <!-- Top Section with Images and Title -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <img [src]="'assets/imgs/' + room.roomType + '.jpg'" alt="Room Image"
+                class="w-full h-full object-cover rounded-tr-lg !important" />
+        </div>
+        <div class="p-6">
+            <h1 class="text-2xl font-bold mb-2 !important">{{ room.roomType }}</h1>
+            <p class="text-sm text-gray-600 mb-4 !important">
+                {{ room.view }} View - {{ room.bedType }}
+            </p>
+            <div class="flex items-center space-x-2">
+                <span class="text-lg text-yellow-400 font-bold !important">★ {{ room.rating || "4.83" }}</span>
+                <a href="#" class="text-sm underline !important">6 reviews</a>
+            </div>
+            <div class="!mt-6">
+                <h2 class="text-lg font-semibold mb-2 !important">Room Details</h2>
+                <div class="">
+                    <p><strong>Room No.</strong> {{ room.roomId }}</p>
+                    <p><strong>Number of Nights:</strong> {{ numberOfNights }}</p>
+                    <p class="text-gray-600 !important">
+                        <span class="font-semibold text-black">Description:</span> This room offers a comfortable stay
+                        with all the modern amenities, including a beautiful {{ room.view }} view.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Section -->
+    <div class="bg-gray-50 p-6">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <p class="text-2xl font-bold !important">₹{{ room.price }} / night</p>
+                <p class="text-sm text-gray-500 !important">Total: ₹{{ totalPrice }}</p>
+            </div>
+
+        </div>
+
+        <!-- Display Check-In and Check-Out Dates and Times -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div>
+                <p class="text-gray-600 text-sm !important">Check-In Date:</p>
+                <p class="font-medium text-lg !important">{{ checkInDate }}</p>
+                <mat-form-field class="w-full">
+                    <mat-label>Check-In Time</mat-label>
+                    <input matInput [ngxTimepicker]="checkInTimePicker" [(ngModel)]="checkInTime" readonly>
+                    <ngx-material-timepicker #checkInTimePicker [format]="24"></ngx-material-timepicker>
+                </mat-form-field>
+            </div>
+            <div>
+                <p class="text-gray-600 text-sm !important">Check-Out Date:</p>
+                <p class="font-medium text-lg !important">{{ checkOutDate }}</p>
+                <mat-form-field class="w-full">
+                    <mat-label>Check-Out Time</mat-label>
+                    <input matInput [ngxTimepicker]="checkOutTimePicker" [(ngModel)]="checkOutTime" readonly>
+                    <ngx-material-timepicker #checkOutTimePicker [format]="24"></ngx-material-timepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 justify-end">
+            <button mat-raised-button color="primary" class="!py-2 !px-4 !important" (click)="checkAvailability()">
+                Check Availability
+            </button>
+            <button mat-raised-button color="accent" class="!py-2 !px-4 !important" (click)="reserveRoom()">
+                Reserve Room
+            </button>
+        </div>
+    </div>
+</div>

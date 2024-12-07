@@ -24,6 +24,7 @@ import { RoomDialogComponent } from '../room-dialog/room-dialog.component';
 })
 export class RoomListComponent implements OnInit {
   rooms: any[] = [];
+  filteredRooms: any[] = [];
   filter = {
     bedType: '',
     view: '',
@@ -35,22 +36,32 @@ export class RoomListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadRooms();
+    this.filteredRooms = this.rooms;
   }
 
   loadRooms(): void {
     this.roomService.getRooms().subscribe(data => {
       this.rooms = data;
+      this.filteredRooms = this.rooms;
     });
   }
 
   deleteRoom(roomId: number): void {
     this.roomService.deleteRoom(roomId).subscribe(() => {
       this.loadRooms();
+      this.filteredRooms = this.rooms;
     });
   }
 
   applyFilter(): void {
-    // Implement filter logic here
+    this.filteredRooms = this.rooms.filter(room => {
+      return (
+        (this.filter.bedType === '' || room.bedType === this.filter.bedType) &&
+        (this.filter.view === '' || room.view === this.filter.view) &&
+        (this.filter.status === '' || room.status === this.filter.status) &&
+        (this.filter.roomType === '' || room.roomType === this.filter.roomType)
+      );
+    });
   }
 
   openAddRoomDialog(): void {
@@ -61,6 +72,7 @@ export class RoomListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadRooms();
+        this.filteredRooms = this.rooms;
       }
     });
   }
@@ -74,6 +86,7 @@ export class RoomListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadRooms();
+        this.filteredRooms = this.rooms;
       }
     });
   }

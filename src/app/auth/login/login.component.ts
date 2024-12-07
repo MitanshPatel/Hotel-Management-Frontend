@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ import { MatDialogRef } from '@angular/material/dialog';
     MatInputModule,
     MatButtonModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    MatSnackBarModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -29,17 +31,27 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class LoginComponent {
   email: string = '';
   password: string = '';
-  
 
-  constructor(private authService: AuthService, private router: Router, public dialogRef: MatDialogRef<LoginComponent>) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    public dialogRef: MatDialogRef<LoginComponent>,
+    private snackBar: MatSnackBar
+  ) {}
 
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe({
       next: (data) => {
         this.dialogRef.close();
+        this.snackBar.open('Logged In Successfully', 'Close', {
+          duration: 3000,
+        });
       },
       error: (error) => {
         console.error('Login failed', error);
+        this.snackBar.open('Login failed: Incorrect email or password', 'Close', {
+          duration: 3000,
+        });
       }
     });
   }

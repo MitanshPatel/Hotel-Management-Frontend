@@ -1,20 +1,61 @@
 <mat-toolbar color="primary">
-    <span>Hotel Management</span>
-    <span class="spacer"></span>
+  <span class="text-xl font-bold">Hotel Management</span>
+  <span class="flex-1"></span>
+  <ng-container *ngIf="!currentUser">
+    <button mat-button class="desktop-only !text-white" (click)="openLoginDialog()">Login</button>
+    <button mat-button class="desktop-only !text-white" (click)="openRegisterDialog()">Register</button>
+  </ng-container>
+  <ng-container *ngIf="currentUser">
+    <button mat-button class="desktop-only !text-white" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
+    <ng-container *ngIf="currentUser.role === 'Guest'">
+      <button mat-button class="desktop-only !text-white" [routerLink]="['/guest/reservation-history']">
+        <mat-icon>history</mat-icon>
+        Reservation History
+      </button>
+      <button mat-button class="desktop-only !text-white" [routerLink]="['/guest']">
+        <mat-icon>search</mat-icon>
+        Available Rooms
+      </button>
+    </ng-container>
+    <ng-container *ngIf="currentUser.role === 'Manager' || currentUser.role === 'Receptionist'">
+      <button mat-button class="desktop-only !text-white" [routerLink]="['/manage-rooms']">
+        <mat-icon>manage_accounts</mat-icon>
+        Manage Rooms
+      </button>
+    </ng-container>
+  </ng-container>
+  <button mat-icon-button class="mobile-only !text-white" [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
     <ng-container *ngIf="!currentUser">
-      <button mat-button (click)="openLoginDialog()">Login</button>
-      <button mat-button (click)="openRegisterDialog()">Register</button>
+      <button mat-menu-item (click)="openLoginDialog()">Login</button>
+      <button mat-menu-item (click)="openRegisterDialog()">Register</button>
     </ng-container>
     <ng-container *ngIf="currentUser">
-      <button mat-button (click)="logout()">
+      <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         Logout
       </button>
+      <ng-container *ngIf="currentUser.role === 'Guest'">
+        <button mat-menu-item [routerLink]="['/guest/reservation-history']">
+          <mat-icon>history</mat-icon>
+          Reservation History
+        </button>
+        <button mat-menu-item [routerLink]="['/guest']">
+          <mat-icon>search</mat-icon>
+          Available Rooms
+        </button>
+      </ng-container>
       <ng-container *ngIf="currentUser.role === 'Manager' || currentUser.role === 'Receptionist'">
-        <button mat-button [routerLink]="['/manage-rooms']">
+        <button mat-menu-item [routerLink]="['/manage-rooms']">
           <mat-icon>manage_accounts</mat-icon>
           Manage Rooms
         </button>
       </ng-container>
     </ng-container>
-  </mat-toolbar>
+  </mat-menu>
+</mat-toolbar>
