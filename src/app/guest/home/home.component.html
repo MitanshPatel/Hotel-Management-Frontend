@@ -1,25 +1,24 @@
 <div class="p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-md space-y-4 mt-6">
   <h2 class="!text-3xl !font-bold">Hello Guest</h2>
   <div class="flex flex-wrap justify-center items-center gap-6 mb-6">
-    <mat-form-field class="w-full sm:w-1/3 md:w-1/5">
-      <mat-label>Check-In Date</mat-label>
-      <input matInput [matDatepicker]="checkInPicker" [(ngModel)]="checkInDate" name="checkInDate">
-      <mat-datepicker-toggle matSuffix [for]="checkInPicker"></mat-datepicker-toggle>
-      <mat-datepicker #checkInPicker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="w-full sm:w-1/3 md:w-1/5">
-      <mat-label>Check-Out Date</mat-label>
-      <input matInput [matDatepicker]="checkOutPicker" [(ngModel)]="checkOutDate" name="checkOutDate">
-      <mat-datepicker-toggle matSuffix [for]="checkOutPicker"></mat-datepicker-toggle>
-      <mat-datepicker #checkOutPicker></mat-datepicker>
+    <mat-form-field class="w-full sm:w-1/3 md:w-1/5" [formGroup]="range">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date">
+        <input matEndDate formControlName="end" placeholder="End date">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-error *ngIf="range.controls['start'].hasError('matStartDateInvalid')">Invalid start date</mat-error>
+      <mat-error *ngIf="range.controls['end'].hasError('matEndDateInvalid')">Invalid end date</mat-error>
     </mat-form-field>
     <div class="w-full flex justify-end mt-4 md:mt-0">
       <button mat-raised-button color="primary" (click)="searchAvailableRooms()">Search</button>
     </div>
   </div>
-  <div class="flex">
+  <div class="flex flex-wrap">
     <!-- Filters Section -->
-    <div class="w-1/4 p-4 bg-gray-100 rounded-lg shadow-md">
+    <div class="w-full md:w-1/4 p-4 bg-gray-100 rounded-lg shadow-md mb-4 md:mb-0">
       <h3 class="!text-xl !font-bold !text-gray-800 mb-4">Filters</h3>
       <mat-form-field class="w-full">
         <mat-label>Bed Type</mat-label>
@@ -63,11 +62,12 @@
       </div>
     </div>
     <!-- Available Rooms Section -->
-    <div class="w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+    <div class="w-full md:w-3/4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
       <div *ngFor="let room of filteredRooms" class="p-4 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer" (click)="viewRoomDetails(room.roomId)">
         <img [src]="'assets/imgs/' + room.roomType + '.jpg'" alt="Room Image" class="w-full h-48 object-cover rounded-t-lg">
         <div class="p-4">
           <h3 class="!text-xl !font-bold !text-gray-800">{{ room.roomType }}</h3>
+          <p class="!text-gray-600">Room: {{ room.roomId }}</p>
           <p class="!text-gray-600">Price: ₹{{ room.price }} per night</p>
           <p class="!text-gray-600">Total Price: ₹{{ room.price * numberOfNights }}</p>
         </div>

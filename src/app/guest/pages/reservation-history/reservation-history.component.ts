@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../../services/room/room.service';
 import { ReservationService } from '../../../services/reservation/reservation.service';
+import { PaymentService } from '../../../services/payment/payment.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,7 +20,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     RouterModule,
     MatSnackBarModule
   ],
-  providers :[DatePipe]
+  providers: [DatePipe]
 })
 export class ReservationHistoryComponent implements OnInit {
   reservations: any[] = [];
@@ -27,6 +28,7 @@ export class ReservationHistoryComponent implements OnInit {
   constructor(
     private reservationService: ReservationService,
     private roomService: RoomService,
+    private paymentService: PaymentService,
     private snackBar: MatSnackBar,
     private datePipe: DatePipe
   ) {}
@@ -72,23 +74,36 @@ export class ReservationHistoryComponent implements OnInit {
   }
 
   viewDetails(reservation: any): void {
-    // Implement view details logic here
     this.snackBar.open('Viewing details for reservation #' + reservation.reservationId, 'Close', {
       duration: 3000,
     });
   }
 
   cancelReservation(reservation: any): void {
-    // Implement cancel reservation logic here
-    this.snackBar.open('Cancelling reservation #' + reservation.reservationId, 'Close', {
-      duration: 3000,
+    this.reservationService.cancelReservation(reservation.reservationId).subscribe(() => {
+      this.snackBar.open('Reservation #' + reservation.reservationId + ' cancelled.', 'Close', {
+        duration: 3000,
+      });
+      this.loadReservations();
     });
   }
 
   makePayment(reservation: any): void {
-    // Implement make payment logic here
-    this.snackBar.open('Making payment for reservation #' + reservation.reservationId, 'Close', {
-      duration: 3000,
+    const payment = {
+      paymentId: 0,
+      reservationId: reservation.reservationId,
+      amount: reservation.totalAmount,
+      paymentMethod: 'Credit Card', // Example payment method
+      paymentFor: 'Reservation',
+      paymentDate: new Date().toISOString(),
+      status: 'Successful'
+    };
+
+    this.paymentService.makePayment(payment).subscribe(response => {
+      this.snackBar.open(response.msg, 'Close', {
+        duration: 3000,
+      });
+      this.loadReservations();
     });
   }
 }

@@ -42,7 +42,7 @@ export class RoomDetailsComponent implements OnInit {
     private datePipe: DatePipe,
     private snackBar: MatSnackBar,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const roomId = this.route.snapshot.paramMap.get('roomId')!;
@@ -103,7 +103,11 @@ export class RoomDetailsComponent implements OnInit {
 
     this.reservationService.checkRoomAvailability(this.room.roomId, checkInDateTime, checkOutDateTime).subscribe(response => {
       if (response.isAvailable) {
-        const guestId = this.authService.currentUserValue.userId; // Get user ID from AuthService
+        const guestId = this.authService.currentUserValue.userId;
+        const checkInDate = new Date(checkInDateTime);
+        const checkOutDate = new Date(checkOutDateTime);
+        const numberOfNights = Math.ceil((checkOutDate.getTime() - checkInDate.getTime()) / (1000 * 3600 * 24));
+        const totalAmount = this.room.price * numberOfNights;
         const reservation = {
           reservationId: 0,
           guestId: guestId,
@@ -112,7 +116,8 @@ export class RoomDetailsComponent implements OnInit {
           checkOutDate: checkOutDateTime,
           status: 'Pending',
           paymentStatus: 'Pending',
-          specialRequests: ''
+          specialRequests: '',
+          totalAmount: totalAmount
         };
 
         this.reservationService.createReservation(reservation).subscribe({

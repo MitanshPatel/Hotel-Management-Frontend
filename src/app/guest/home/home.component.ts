@@ -6,9 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { DatePipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
@@ -19,6 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
@@ -32,8 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
 export class GuestHomeComponent implements OnInit {
   availableRooms: any[] = [];
   filteredRooms: any[] = [];
-  checkInDate: string = '';
-  checkOutDate: string = '';
+  range: FormGroup;
   numberOfNights: number = 0;
   filter = {
     bedType: '',
@@ -42,21 +41,32 @@ export class GuestHomeComponent implements OnInit {
     roomType: ''
   };
 
-  constructor(private reservationService: ReservationService, private datePipe: DatePipe, private router: Router) {}
+  constructor(
+    private reservationService: ReservationService,
+    private datePipe: DatePipe,
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.range = this.fb.group({
+      start: [null],
+      end: [null]
+    });
+  }
 
   ngOnInit(): void {}
 
   searchAvailableRooms(): void {
-    const formattedCheckInDate = this.datePipe.transform(this.checkInDate, 'yyyy-MM-ddTHH:mm:ss') || '';
-    const formattedCheckOutDate = this.datePipe.transform(this.checkOutDate, 'yyyy-MM-ddTHH:mm:ss') || '';
+    const { start, end } = this.range.value;
+    const formattedCheckInDate = start ? this.datePipe.transform(start, 'yyyy-MM-ddTHH:mm:ss') : '';
+    const formattedCheckOutDate = end ? this.datePipe.transform(end, 'yyyy-MM-ddTHH:mm:ss') : '';
 
-    if (formattedCheckInDate!='' || formattedCheckOutDate !='') {
-      const checkIn = new Date(this.checkInDate);
-      const checkOut = new Date(this.checkOutDate);
+    if (formattedCheckInDate && formattedCheckOutDate) {
+      const checkIn = new Date(start);
+      const checkOut = new Date(end);
       this.numberOfNights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 3600 * 24));
     }
 
-    this.reservationService.getAvailableRooms(formattedCheckInDate, formattedCheckOutDate).subscribe(data => {
+    this.reservationService.getAvailableRooms(formattedCheckInDate || '', formattedCheckOutDate || '').subscribe(data => {
       this.availableRooms = data;
       this.filteredRooms = this.availableRooms;
     });
@@ -74,10 +84,11 @@ export class GuestHomeComponent implements OnInit {
   }
 
   viewRoomDetails(roomId: string): void {
+    const { start, end } = this.range.value;
     const url = this.router.serializeUrl(this.router.createUrlTree(['/guest/rooms', roomId], {
       queryParams: {
-        checkInDate: this.checkInDate,
-        checkOutDate: this.checkOutDate,
+        checkInDate: start,
+        checkOutDate: end,
         numberOfNights: this.numberOfNights
       }
     }));

@@ -47,4 +47,33 @@ export class ReservationService {
       headers: this.getAuthHeaders()
     });
   }
+
+  getAllBookings(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/reservation-management/all`, { headers: this.getAuthHeaders() });
+  }
+
+  getPendingBookings(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/reservation-management/pending`, { headers: this.getAuthHeaders() });
+  }
+
+  getApprovedBookings(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/reservation-management/approved`, { headers: this.getAuthHeaders() });
+  }
+
+  getRejectedBookings(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/reservation-management/rejected`, { headers: this.getAuthHeaders() });
+  }
+
+  updateBookingStatus(reservationId: number, status: string): Observable<any> {
+    const body = { status };
+    return this.http.put<any>(`${this.apiUrl}/reservation-management/${reservationId}/status`, body, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  cancelReservation(reservationId: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/reservation/${reservationId}/cancel`, {}, {
+      headers: this.getAuthHeaders()
+    });
+  }
 }
