@@ -1,72 +1,100 @@
 <div class="max-w-6xl mx-auto my-8 bg-white rounded-lg shadow-lg overflow-hidden">
     <!-- Top Section with Images and Title -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-            <img [src]="'assets/imgs/' + room.roomType + '.jpg'" alt="Room Image"
-                class="w-full h-full object-cover rounded-tr-lg !important" />
+      <div>
+        <img [src]="'assets/imgs/' + room?.roomType + '.jpg'" alt="Room Image" class="w-full h-full object-cover rounded-tr-lg !important" />
+      </div>
+      <div class="p-6">
+        <h1 class="!text-2xl !font-bold mb-2">{{ room?.roomType }}</h1>
+        <p class="!text-sm !text-gray-600 mb-4">{{ room?.view }} View - {{ room?.bedType }}</p>
+        <div class="flex items-center space-x-2">
+          <span class="!text-lg !text-yellow-400 !font-bold">★ {{ averageRating || "4.83" }}</span>
+          <a href="#" class="!text-sm !underline">{{ reviews.length }} reviews</a>
         </div>
-        <div class="p-6">
-            <h1 class="text-2xl font-bold mb-2 !important">{{ room.roomType }}</h1>
-            <p class="text-sm text-gray-600 mb-4 !important">
-                {{ room.view }} View - {{ room.bedType }}
+        <div class="!mt-6">
+          <h2 class="!text-lg !font-semibold mb-2">Room Details</h2>
+          <div>
+            <p><strong>Room No.</strong> {{ room?.roomId }}</p>
+            <p><strong>Number of Nights:</strong> {{ numberOfNights }}</p>
+            <p class="!text-gray-600">
+              <span class="!font-semibold !text-black">Description:</span> This room offers a comfortable stay with all the modern amenities, including a beautiful {{ room?.view }} view.
             </p>
-            <div class="flex items-center space-x-2">
-                <span class="text-lg text-yellow-400 font-bold !important">★ {{ room.rating || "4.83" }}</span>
-                <a href="#" class="text-sm underline !important">6 reviews</a>
-            </div>
-            <div class="!mt-6">
-                <h2 class="text-lg font-semibold mb-2 !important">Room Details</h2>
-                <div class="">
-                    <p><strong>Room No.</strong> {{ room.roomId }}</p>
-                    <p><strong>Number of Nights:</strong> {{ numberOfNights }}</p>
-                    <p class="text-gray-600 !important">
-                        <span class="font-semibold text-black">Description:</span> This room offers a comfortable stay
-                        with all the modern amenities, including a beautiful {{ room.view }} view.
-                    </p>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-
+  
     <!-- Booking Section -->
     <div class="bg-gray-50 p-6">
-        <div class="flex justify-between items-center mb-4">
-            <div>
-                <p class="text-2xl font-bold !important">₹{{ room.price }} / night</p>
-                <p class="text-sm text-gray-500 !important">Total: ₹{{ totalPrice }}</p>
-            </div>
-
+      <div class="flex justify-between items-center mb-4">
+        <div>
+          <p class="!text-2xl !font-bold">₹{{ room?.price }} / night</p>
+          <p class="!text-sm !text-gray-500">Total: ₹{{ totalPrice }}</p>
         </div>
-
-        <!-- Display Check-In and Check-Out Dates and Times -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div>
-                <p class="text-gray-600 text-sm !important">Check-In Date:</p>
-                <p class="font-medium text-lg !important">{{ checkInDate }}</p>
-                <mat-form-field class="w-full">
-                    <mat-label>Check-In Time</mat-label>
-                    <input matInput [ngxTimepicker]="checkInTimePicker" [(ngModel)]="checkInTime" readonly>
-                    <ngx-material-timepicker #checkInTimePicker [format]="24"></ngx-material-timepicker>
-                </mat-form-field>
-            </div>
-            <div>
-                <p class="text-gray-600 text-sm !important">Check-Out Date:</p>
-                <p class="font-medium text-lg !important">{{ checkOutDate }}</p>
-                <mat-form-field class="w-full">
-                    <mat-label>Check-Out Time</mat-label>
-                    <input matInput [ngxTimepicker]="checkOutTimePicker" [(ngModel)]="checkOutTime" readonly>
-                    <ngx-material-timepicker #checkOutTimePicker [format]="24"></ngx-material-timepicker>
-                </mat-form-field>
-            </div>
+      </div>
+  
+      <!-- Display Check-In and Check-Out Dates and Times -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+        <div>
+          <p class="!text-gray-600 !text-sm">Check-In Date:</p>
+          <p class="!font-medium !text-lg">{{ checkInDate }}</p>
+          <mat-form-field class="w-full">
+            <mat-label>Check-In Time</mat-label>
+            <input matInput [ngxTimepicker]="checkInTimePicker" [(ngModel)]="checkInTime" readonly>
+            <ngx-material-timepicker #checkInTimePicker [format]="24"></ngx-material-timepicker>
+          </mat-form-field>
         </div>
-
-        <div class="flex items-center gap-4 justify-end">
-            <button mat-raised-button color="primary" class="!py-2 !px-4 !important" (click)="checkAvailability()">
-                Check Availability
-            </button>
-            <button mat-raised-button color="accent" class="!py-2 !px-4 !important" (click)="reserveRoom()">
-                Reserve Room
-            </button>
+        <div>
+          <p class="!text-gray-600 !text-sm">Check-Out Date:</p>
+          <p class="!font-medium !text-lg">{{ checkOutDate }}</p>
+          <mat-form-field class="w-full">
+            <mat-label>Check-Out Time</mat-label>
+            <input matInput [ngxTimepicker]="checkOutTimePicker" [(ngModel)]="checkOutTime" readonly>
+            <ngx-material-timepicker #checkOutTimePicker [format]="24"></ngx-material-timepicker>
+          </mat-form-field>
         </div>
+      </div>
+  
+      <div class="flex items-center gap-4 justify-end">
+        <button mat-raised-button color="primary" class="!py-2 !px-4" (click)="checkAvailability()">Check Availability</button>
+        <button mat-raised-button color="accent" class="!py-2 !px-4" (click)="reserveRoom()">Reserve Room</button>
+      </div>
     </div>
-</div>
+  
+    <!-- Add Review Section -->
+    <div class="bg-white p-6 mt-4 rounded-lg shadow-md">
+      <h2 class="!text-2xl !font-bold mb-4">Add Review</h2>
+      <form (ngSubmit)="addReview()">
+        <mat-form-field class="!w-full">
+          <mat-label>Rating</mat-label>
+          <mat-select [(ngModel)]="rating" name="rating" required>
+            <mat-option *ngFor="let r of [1, 2, 3, 4, 5]" [value]="r">{{ r }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="!w-full">
+          <mat-label>Comments</mat-label>
+          <textarea matInput [(ngModel)]="comments" name="comments"></textarea>
+        </mat-form-field>
+        <div class="!flex !justify-end">
+          <button mat-raised-button color="primary" type="submit">Submit Review</button>
+        </div>
+      </form>
+    </div>
+  
+    <!-- Reviews Section -->
+    <div class="bg-white p-6 mt-4 rounded-lg shadow-md">
+      <h2 class="!text-2xl !font-bold mb-4">Reviews</h2>
+      <div *ngIf="reviews.length > 0; else noReviews">
+        <div *ngFor="let review of reviews" class="mb-4">
+          <div class="flex items-center mb-2">
+            <span class="!text-lg !text-yellow-400 !font-bold">★ {{ review.rating }}</span>
+            <span class="ml-2 !text-sm !text-gray-500">{{ review.reviewDate | date: 'mediumDate' }}</span>
+          </div>
+          <p class="!text-gray-600">{{ review.comments }}</p>
+        </div>
+      </div>
+      <ng-template #noReviews>
+        <p class="!text-gray-500">No reviews available.</p>
+      </ng-template>
+    </div>
+  </div>

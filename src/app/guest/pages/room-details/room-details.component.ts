@@ -9,7 +9,7 @@ import { ReservationService } from '../../../services/reservation/reservation.se
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service';
-
+import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'app-room-details',
   templateUrl: './room-details.component.html',
@@ -22,7 +22,8 @@ import { AuthService } from '../../../services/auth/auth.service';
     MatFormFieldModule,
     MatInputModule,
     NgxMaterialTimepickerModule,
-    FormsModule
+    FormsModule,
+    MatSelectModule
   ],
   providers: [DatePipe]
 })
@@ -34,6 +35,10 @@ export class RoomDetailsComponent implements OnInit {
   checkOutTime: string = '';
   numberOfNights: number = 0;
   totalPrice: number = 0;
+  reviews: any[] = [];
+  averageRating: number = 0;
+  rating: number = 0;
+  comments: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +61,42 @@ export class RoomDetailsComponent implements OnInit {
     this.reservationService.getRoomDetails(roomId).subscribe(data => {
       this.room = data;
       this.totalPrice = this.room.price * this.numberOfNights;
+    });
+    this.fetchRoomReviews(roomId);
+  }
+
+  fetchRoomReviews(roomId: string): void {
+    this.reservationService.getRoomReviews(roomId).subscribe(response => {
+      this.reviews = response.reviews;
+      this.averageRating = response.averageRating;
+    });
+  }
+
+  addReview(): void {
+    const review = {
+      reviewId: 0,
+      guestId: this.authService.currentUserValue.userId,
+      reservationId: null,
+      roomId: this.room.roomId,
+      rating: this.rating,
+      comments: this.comments,
+      reviewDate: new Date().toISOString()
+    };
+
+    this.reservationService.addReview(review).subscribe({
+      next: () => {
+        this.snackBar.open('Review added successfully.', 'Close', {
+          duration: 3000,
+        });
+        this.fetchRoomReviews(this.room.roomId);
+        this.rating = 0;
+        this.comments = '';
+      },
+      error: () => {
+        this.snackBar.open('Failed to add review. Please try again.', 'Close', {
+          duration: 3000,
+        });
+      }
     });
   }
 
