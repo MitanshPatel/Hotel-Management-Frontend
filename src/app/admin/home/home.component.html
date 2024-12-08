@@ -1,37 +1,62 @@
-<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-  <h2 class="text-2xl font-bold">Hello Admin</h2>
-</div>
+<div class="!p-6 !max-w-7xl !mx-auto !bg-white !rounded-xl !shadow-md !space-y-4">
+  <div class="!flex !justify-between !items-center">
+    <h2 class="!text-2xl !font-bold">Hello Admin</h2>
+    <button mat-raised-button color="primary" (click)="toggleView()">
+      <mat-icon class="!mr-2">{{ showForm ? 'bar_chart' : 'person_add' }}</mat-icon>
+      {{ showForm ? 'Analytics' : 'Add User' }}
+    </button>
+  </div>
 
-<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-  <h2 class="text-2xl font-bold">Add User</h2>
-  <form (ngSubmit)="onSubmit()">
-    <mat-form-field class="w-full">
-      <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
-    </mat-form-field>
-    <mat-form-field class="w-full">
-      <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
-    </mat-form-field>
-    <mat-form-field class="w-full">
-      <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password" required>
-    </mat-form-field>
-    <mat-form-field class="w-full">
-      <mat-select placeholder="Role" [(ngModel)]="role" name="role" required>
-        <mat-option value="Admin">Admin</mat-option>
-        <mat-option value="Manager">Manager</mat-option>
-        <mat-option value="Receptionist">Receptionist</mat-option>
-        <mat-option value="Housekeeping">Housekeeping</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="w-full">
-      <mat-select placeholder="Shift Type" [(ngModel)]="shiftType" name="shiftType" required>
-        <mat-option value="Morning">Morning</mat-option>
-        <mat-option value="Afternoon">Afternoon</mat-option>
-        <mat-option value="Evening">Evening</mat-option>
-        <mat-option value="Night">Night</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="flex justify-end">
-      <button mat-raised-button color="primary" type="submit">Add User</button>
+  <div *ngIf="showForm" class="!space-y-4">
+    <h2 class="!text-2xl !font-bold">Add User</h2>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field class="!w-full">
+        <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+      </mat-form-field>
+      <mat-form-field class="!w-full">
+        <input matInput placeholder="Email" [(ngModel)]="email" name="email" required>
+      </mat-form-field>
+      <mat-form-field class="!w-full">
+        <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password" required>
+      </mat-form-field>
+      <mat-form-field class="!w-full">
+        <mat-select placeholder="Role" [(ngModel)]="role" name="role" required>
+          <mat-option value="Admin">Admin</mat-option>
+          <mat-option value="Manager">Manager</mat-option>
+          <mat-option value="Receptionist">Receptionist</mat-option>
+          <mat-option value="Housekeeping">Housekeeping</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="!w-full">
+        <mat-select placeholder="Shift Type" [(ngModel)]="shiftType" name="shiftType" required>
+          <mat-option value="Morning">Morning</mat-option>
+          <mat-option value="Afternoon">Afternoon</mat-option>
+          <mat-option value="Evening">Evening</mat-option>
+          <mat-option value="Night">Night</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="!flex !justify-end">
+        <button mat-raised-button color="primary" type="submit">Add User</button>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="!showForm" class="!space-y-4">
+    <h2 class="!text-2xl !font-bold !text-center !text-blue-600">Monthly Revenue Analytics</h2>
+    <div class="!w-full !overflow-x-auto !flex !justify-center !items-center !mt-8">
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="monthlyRevenue"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel">
+      </ngx-charts-bar-vertical>
     </div>
-  </form>
+  </div>
 </div>

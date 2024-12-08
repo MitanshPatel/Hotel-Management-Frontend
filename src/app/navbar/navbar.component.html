@@ -40,6 +40,12 @@
         <mat-icon>book</mat-icon>
         Manage Bookings
       </button>
+      <ng-container *ngIf="currentUser.role === 'Manager'">
+        <button mat-button class="desktop-only !text-white" [routerLink]="['/manager/attendance-history']">
+          <mat-icon>history</mat-icon>
+          Attendance History
+        </button>
+      </ng-container>
       <ng-container *ngIf="currentUser.role === 'Receptionist'">
         <button mat-button class="desktop-only !text-white" (click)="openMarkAttendanceDialog()">
           <mat-icon>schedule</mat-icon>
@@ -98,6 +104,12 @@
           <mat-icon>book</mat-icon>
           Manage Bookings
         </button>
+        <ng-container *ngIf="currentUser.role === 'Manager'">
+          <button mat-menu-item [routerLink]="['/manager/attendance-history']">
+            <mat-icon>history</mat-icon>
+            Attendance History
+          </button>
+        </ng-container>
         <ng-container *ngIf="currentUser.role === 'Receptionist'">
           <button mat-menu-item (click)="openMarkAttendanceDialog()">
             <mat-icon>schedule</mat-icon>

@@ -95,8 +95,8 @@ export class ReservationHistoryComponent implements OnInit {
       paymentId: 0,
       reservationId: reservation.reservationId,
       amount: reservation.totalAmount,
-      paymentMethod: 'Credit Card', // Example payment method
-      paymentFor: 'Reservation',
+      paymentMethod: 'Credit Card',
+      paymentFor: 'Booking',
       paymentDate: new Date().toISOString(),
       status: 'Successful'
     };

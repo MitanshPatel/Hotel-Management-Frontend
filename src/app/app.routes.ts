@@ -13,7 +13,7 @@ import { RoomDetailsComponent } from './guest/pages/room-details/room-details.co
 import { ManageBookingsComponent } from './receptionist/pages/manage-bookings/manage-bookings.component';
 import { OrderComponent } from './guest/pages/order/order.component';
 import { OrderHistoryComponent } from './guest/pages/order-history/order-history.component';
-
+import { AttendanceHistoryComponent } from './manager/attendance-history/attendance-history.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,6 +23,7 @@ export const routes: Routes = [
   { path: 'guest/order/:reservationId', component: OrderComponent, canActivate: [authGuard], data: { roles: ['Guest'] } },
   { path: 'guest/order-history', component: OrderHistoryComponent, canActivate: [authGuard], data: { roles: ['Guest'] } },
   { path: 'manager', component: ManagerHomeComponent, canActivate: [authGuard], data: { roles: ['Manager'] } },
+  { path: 'manager/attendance-history', component: AttendanceHistoryComponent, canActivate: [authGuard], data: { roles: ['Manager'] } },
   { path: 'receptionist', component: ReceptionistHomeComponent, canActivate: [authGuard], data: { roles: ['Receptionist'] } },
   { path: 'receptionist/manage-bookings', component: ManageBookingsComponent, canActivate: [authGuard], data: { roles: ['Receptionist', 'Manager'] } },
   { path: 'housekeeping', component: HousekeepingHomeComponent, canActivate: [authGuard], data: { roles: ['Housekeeping'] } },
