@@ -14,8 +14,10 @@ import { ManageBookingsComponent } from './receptionist/pages/manage-bookings/ma
 import { OrderComponent } from './guest/pages/order/order.component';
 import { OrderHistoryComponent } from './guest/pages/order-history/order-history.component';
 import { AttendanceHistoryComponent } from './manager/attendance-history/attendance-history.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 export const routes: Routes = [
+  { path: '', component: LandingPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'guest', component: GuestHomeComponent, canActivate: [authGuard], data: { roles: ['Guest'] } },
