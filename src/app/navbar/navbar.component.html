@@ -40,6 +40,22 @@
         <mat-icon>book</mat-icon>
         Manage Bookings
       </button>
+      <ng-container *ngIf="currentUser.role === 'Receptionist'">
+        <button mat-button class="desktop-only !text-white" (click)="openMarkAttendanceDialog()">
+          <mat-icon>schedule</mat-icon>
+          Mark Attendance
+        </button>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="currentUser.role === 'Housekeeping'">
+      <button mat-button class="desktop-only !text-white" [routerLink]="['/housekeeping']">
+        <mat-icon>cleaning_services</mat-icon>
+        Manage Orders
+      </button>
+      <button mat-button class="desktop-only !text-white" (click)="openMarkAttendanceDialog()">
+        <mat-icon>schedule</mat-icon>
+        Mark Attendance
+      </button>
     </ng-container>
   </ng-container>
   <button mat-icon-button class="mobile-only !text-white" [matMenuTriggerFor]="menu">
@@ -81,6 +97,22 @@
         <button mat-menu-item [routerLink]="['/receptionist/manage-bookings']">
           <mat-icon>book</mat-icon>
           Manage Bookings
+        </button>
+        <ng-container *ngIf="currentUser.role === 'Receptionist'">
+          <button mat-menu-item (click)="openMarkAttendanceDialog()">
+            <mat-icon>schedule</mat-icon>
+            Mark Attendance
+          </button>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="currentUser.role === 'Housekeeping'">
+        <button mat-menu-item [routerLink]="['/housekeeping']">
+          <mat-icon>cleaning_services</mat-icon>
+          Manage Orders
+        </button>
+        <button mat-menu-item (click)="openMarkAttendanceDialog()">
+          <mat-icon>schedule</mat-icon>
+          Mark Attendance
         </button>
       </ng-container>
     </ng-container>

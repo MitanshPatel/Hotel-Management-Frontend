@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MarkAttendanceComponent } from '../mark-attendance/mark-attendance.component';
 
 @Component({
   selector: 'app-navbar',
@@ -75,6 +76,12 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['/']);
     }
   } 
+
+  openMarkAttendanceDialog(): void {
+    this.dialog.open(MarkAttendanceComponent, {
+      width: '400px'
+    });
+  }
 
   logout(): void {
     this.authService.logout();

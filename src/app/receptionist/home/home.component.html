@@ -1,3 +1,130 @@
-<div class="p-6 max-w-md mx-auto bg-white rounded-xl shadow-md space-y-4">
-    <h2 class="text-2xl font-bold">Hello Receptionist</h2>
+<div class="!p-6 !max-w-md !mx-auto !bg-white !space-y-4">
+  <h2 class="!text-3xl !font-bold !text-center !text-blue-600">Hello Receptionist</h2>
+</div>
+
+<div class="!p-6 !max-w-7xl !mx-auto !bg-white !rounded-xl !shadow-md !space-y-4 !mt-6">
+  <h2 class="!text-2xl !font-bold !text-blue-600">Today's Reservations</h2>
+  <div class="!flex !flex-col !md:flex-row !space-y-4 !md:space-y-0 !md:space-x-6">
+    <!-- Check-in Date Picker -->
+    <div class="!w-full !md:w-1/3">
+      <h3 class="!text-lg !font-bold !mt-6 !text-blue-600">Check-in Reservations</h3>
+      <mat-form-field appearance="fill" >
+        <mat-label>Check-in Date</mat-label>
+        <input matInput [matDatepicker]="checkInPicker" [(ngModel)]="checkInDate" (dateChange)="applyFilter()">
+        <mat-datepicker-toggle matSuffix [for]="checkInPicker"></mat-datepicker-toggle>
+        <mat-datepicker #checkInPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
   </div>
+
+  <!-- Check-in Reservations List -->
+  <div *ngIf="filteredCheckInReservations.length > 0; else noCheckInReservations">
+    <div class="!overflow-x-auto">
+      <table mat-table [dataSource]="filteredCheckInReservations" class="mat-elevation-z8 !w-full">
+        <!-- Reservation ID Column -->
+        <ng-container matColumnDef="reservationId">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Reservation ID </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.reservationId }} </td>
+        </ng-container>
+
+        <!-- Room ID Column -->
+        <ng-container matColumnDef="roomId">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Room ID </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.roomId }} </td>
+        </ng-container>
+
+        <!-- Guest ID Column -->
+        <ng-container matColumnDef="guestId">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Guest ID </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.guestId }} </td>
+        </ng-container>
+
+        <!-- Check-in Date Column -->
+        <ng-container matColumnDef="checkInDate">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Check-in Date </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.checkInDate | date: 'shortDate' }} </td>
+        </ng-container>
+
+        <!-- Check-out Date Column -->
+        <ng-container matColumnDef="checkOutDate">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Check-out Date </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.checkOutDate | date: 'shortDate' }} </td>
+        </ng-container>
+
+        <!-- Payment Status Column -->
+        <ng-container matColumnDef="paymentStatus">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Payment Status </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.paymentStatus }} </td>
+        </ng-container>
+
+        <!-- Header and Row Declarations -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCheckIn"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCheckIn;"></tr>
+      </table>
+    </div>
+  </div>
+  <ng-template #noCheckInReservations>
+    <p class="!text-center !text-gray-500">No Check-in Reservations</p>
+  </ng-template>
+
+  <!-- Check-out Date Picker -->
+  <div class="!w-full !md:w-1/3 !mt-12">
+    <h3 class="!text-lg !font-bold !mt-6 !text-blue-600">Check-out Reservations</h3>
+    <mat-form-field appearance="fill">
+      <mat-label>Check-out Date</mat-label>
+      <input matInput [matDatepicker]="checkOutPicker" [(ngModel)]="checkOutDate" (dateChange)="applyFilter()">
+      <mat-datepicker-toggle matSuffix [for]="checkOutPicker"></mat-datepicker-toggle>
+      <mat-datepicker #checkOutPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- Check-out Reservations List -->
+  <div *ngIf="filteredCheckOutReservations.length > 0; else noCheckOutReservations">
+    <div class="!overflow-x-auto">
+      <table mat-table [dataSource]="filteredCheckOutReservations" class="mat-elevation-z8 !w-full">
+        <!-- Reservation ID Column -->
+        <ng-container matColumnDef="reservationId">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Reservation ID </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.reservationId }} </td>
+        </ng-container>
+
+        <!-- Room ID Column -->
+        <ng-container matColumnDef="roomId">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Room ID </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.roomId }} </td>
+        </ng-container>
+
+        <!-- Guest Name Column -->
+        <ng-container matColumnDef="guestName">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Guest Name </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.guestName }} </td>
+        </ng-container>
+
+        <!-- Check-in Date Column -->
+        <ng-container matColumnDef="checkInDate">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Check-in Date </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.checkInDate | date: 'shortDate' }} </td>
+        </ng-container>
+
+        <!-- Check-out Date Column -->
+        <ng-container matColumnDef="checkOutDate">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Check-out Date </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.checkOutDate | date: 'shortDate' }} </td>
+        </ng-container>
+
+        <!-- Payment Status Column -->
+        <ng-container matColumnDef="paymentStatus">
+          <th mat-header-cell *matHeaderCellDef class="!bg-gray-200"> Payment Status </th>
+          <td mat-cell *matCellDef="let reservation"> {{ reservation.paymentStatus }} </td>
+        </ng-container>
+
+        <!-- Header and Row Declarations -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsCheckOut"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsCheckOut;"></tr>
+      </table>
+    </div>
+  </div>
+  <ng-template #noCheckOutReservations>
+    <p class="!text-center !font-semibold !text-red-500">No Check-out Reservations</p>
+  </ng-template>
+</div>

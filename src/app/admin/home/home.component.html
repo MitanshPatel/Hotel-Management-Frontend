@@ -22,6 +22,14 @@
         <mat-option value="Housekeeping">Housekeeping</mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field class="w-full">
+      <mat-select placeholder="Shift Type" [(ngModel)]="shiftType" name="shiftType" required>
+        <mat-option value="Morning">Morning</mat-option>
+        <mat-option value="Afternoon">Afternoon</mat-option>
+        <mat-option value="Evening">Evening</mat-option>
+        <mat-option value="Night">Night</mat-option>
+      </mat-select>
+    </mat-form-field>
     <div class="flex justify-end">
       <button mat-raised-button color="primary" type="submit">Add User</button>
     </div>

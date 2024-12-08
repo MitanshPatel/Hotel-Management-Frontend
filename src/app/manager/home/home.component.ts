@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -10,12 +7,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { lastValueFrom } from 'rxjs';
+import { AttendanceService } from '../../services/attendance/attendance.service';
 
 @Component({
-  selector: 'app-manager-home',
+  selector: 'app-admin-home',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     FormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -23,20 +25,23 @@ import { lastValueFrom } from 'rxjs';
     MatSelectModule,
     MatButtonModule,
     HttpClientModule,
-    MatSnackBarModule],
+    MatSnackBarModule
+  ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
 export class ManagerHomeComponent {
   username: string = '';
   email: string = '';
   password: string = '';
   role: string = '';
+  shiftType: string = '';
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private attendanceService: AttendanceService
   ) {}
 
   async onSubmit() {
@@ -54,6 +59,17 @@ export class ManagerHomeComponent {
       this.snackBar.open('User added successfully', 'Close', {
         duration: 3000,
       });
+
+      const shift = {
+        staffId: user.userId,
+        shiftType: this.shiftType
+      };
+
+      await lastValueFrom(this.attendanceService.addShift(shift));
+      this.snackBar.open('Shift added successfully', 'Close', {
+        duration: 3000,
+      });
+
       this.router.navigate(['/manager']);
     } catch (error) {
       console.error('Adding user failed', error);

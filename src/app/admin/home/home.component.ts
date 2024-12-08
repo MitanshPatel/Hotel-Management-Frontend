@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { lastValueFrom } from 'rxjs';
+import { AttendanceService } from '../../services/attendance/attendance.service';
 
 @Component({
   selector: 'app-admin-home',
@@ -34,11 +35,13 @@ export class AdminHomeComponent {
   email: string = '';
   password: string = '';
   role: string = '';
+  shiftType: string = '';
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private attendanceService: AttendanceService
   ) {}
 
   async onSubmit() {
@@ -56,6 +59,17 @@ export class AdminHomeComponent {
       this.snackBar.open('User added successfully', 'Close', {
         duration: 3000,
       });
+
+      const shift = {
+        staffId: user.userId,
+        shiftType: this.shiftType
+      };
+
+      await lastValueFrom(this.attendanceService.addShift(shift));
+      this.snackBar.open('Shift added successfully', 'Close', {
+        duration: 3000,
+      });
+
       this.router.navigate(['/admin']);
     } catch (error) {
       console.error('Adding user failed', error);
