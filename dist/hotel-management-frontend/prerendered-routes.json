@@ -1,0 +1,17 @@
+{
+  "routes": [
+    "/",
+    "/admin",
+    "/guest",
+    "/guest/order-history",
+    "/guest/reservation-history",
+    "/housekeeping",
+    "/login",
+    "/manage-rooms",
+    "/manager",
+    "/manager/attendance-history",
+    "/receptionist",
+    "/receptionist/manage-bookings",
+    "/register"
+  ]
+}
