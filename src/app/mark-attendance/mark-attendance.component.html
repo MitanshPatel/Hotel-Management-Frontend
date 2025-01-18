@@ -1,7 +1,11 @@
 <div class="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4">
-    <h2 class="text-2xl font-bold">Mark Attendance</h2>
-    <div *ngIf="shift.staffShiftId || attendanceMarked">
-      <p><strong>Today's Date:</strong> {{ today | date: 'fullDate' }}</p>
+  <h2 class="text-2xl font-bold">Mark Attendance</h2>
+  <div *ngIf="shift.staffShiftId || attendanceMarked">
+    <p><strong>Today's Date:</strong> {{ today | date: 'fullDate' }}</p>
+    <ng-container *ngIf="shift.shiftType === 'None' && attendanceMarked; else notOnLeave">
+      <p><strong>Status:</strong> On Leave</p>
+    </ng-container>
+    <ng-template #notOnLeave>
       <p><strong>Shift Type:</strong> {{ shift.shiftType }}</p>
       <p><strong>Shift Time:</strong> {{ shiftTimeRange }}</p>
       <p *ngIf="shiftStartTime"><strong>Shift Start Time:</strong> {{ shiftStartTime | date: 'shortTime' }}</p>
@@ -10,8 +14,9 @@
         <button mat-raised-button color="primary" *ngIf="!shiftStartTime && !attendanceMarked" (click)="checkIn()">Check In</button>
         <button mat-raised-button color="accent" *ngIf="!shiftEndTime && !attendanceMarked" (click)="checkOut()">Check Out</button>
       </div>
-    </div>
-    <div *ngIf="errorMessage" class="text-red-500">
-      {{ errorMessage }}
-    </div>
+    </ng-template>
   </div>
+  <div *ngIf="errorMessage" class="text-red-500">
+    {{ errorMessage }}
+  </div>
+</div>

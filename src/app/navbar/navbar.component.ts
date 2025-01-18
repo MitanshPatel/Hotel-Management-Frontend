@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MarkAttendanceComponent } from '../mark-attendance/mark-attendance.component';
+import { LeaveRequestComponent } from '../leave-request/leave-request.component';
 
 @Component({
   selector: 'app-navbar',
@@ -76,6 +77,12 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['/']);
     }
   } 
+
+  openLeaveRequestDialog(): void {
+    this.dialog.open(LeaveRequestComponent, {
+      width: '400px'
+    });
+  }
 
   openMarkAttendanceDialog(): void {
     this.dialog.open(MarkAttendanceComponent, {

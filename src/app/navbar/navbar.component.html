@@ -51,6 +51,16 @@
           <mat-icon>schedule</mat-icon>
           Mark Attendance
         </button>
+        <button mat-button class="desktop-only !text-white" (click)="openLeaveRequestDialog()">
+          <mat-icon>event</mat-icon>
+          Apply Leave
+        </button>
+      </ng-container>
+      <ng-container *ngIf="currentUser.role === 'Manager'">
+        <button mat-button class="desktop-only !text-white" [routerLink]="['/manager/leave-requests']">
+          <mat-icon>list</mat-icon>
+          Leave Requests
+        </button>
       </ng-container>
     </ng-container>
     <ng-container *ngIf="currentUser.role === 'Housekeeping'">
@@ -61,6 +71,10 @@
       <button mat-button class="desktop-only !text-white" (click)="openMarkAttendanceDialog()">
         <mat-icon>schedule</mat-icon>
         Mark Attendance
+      </button>
+      <button mat-button class="desktop-only !text-white" (click)="openLeaveRequestDialog()">
+        <mat-icon>event</mat-icon>
+        Apply Leave
       </button>
     </ng-container>
   </ng-container>
@@ -115,6 +129,10 @@
             <mat-icon>schedule</mat-icon>
             Mark Attendance
           </button>
+          <button mat-menu-item (click)="openLeaveRequestDialog()">
+            <mat-icon>event</mat-icon>
+            Apply Leave
+          </button>
         </ng-container>
       </ng-container>
       <ng-container *ngIf="currentUser.role === 'Housekeeping'">
@@ -125,6 +143,10 @@
         <button mat-menu-item (click)="openMarkAttendanceDialog()">
           <mat-icon>schedule</mat-icon>
           Mark Attendance
+        </button>
+        <button mat-menu-item (click)="openLeaveRequestDialog()">
+          <mat-icon>event</mat-icon>
+          Apply Leave
         </button>
       </ng-container>
     </ng-container>

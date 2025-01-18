@@ -1,0 +1,15 @@
+<div class="p-6 max-w-lg mx-auto bg-white rounded-xl shadow-md space-y-4">
+    <h2 class="text-2xl font-bold">Apply for Leave</h2>
+    <mat-form-field class="w-full">
+      <mat-label>Leave Date Range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" [(ngModel)]="startDate">
+        <input matEndDate placeholder="End date" [(ngModel)]="endDate">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <div class="flex justify-end">
+      <button mat-raised-button color="primary" (click)="applyLeave()">Apply Leave</button>
+    </div>
+  </div>
