@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -41,11 +41,19 @@ export class OrderService {
     return this.serviceItems;
   }
 
-  getFoodOrders(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:5065/api/service/my-food', { headers: this.getAuthHeaders() });
+  getFoodOrders(pageNumber: number = 1, pageSize: number = 5): Observable<PaginatedResponse<any>> {
+    const params = new HttpParams().set('pageNumber', pageNumber.toString()).set('pageSize', pageSize.toString());
+    return this.http.get<PaginatedResponse<any>>('http://localhost:5065/api/service/my-food', { headers: this.getAuthHeaders(), params });
+  }
+  
+  getServiceOrders(pageNumber: number = 1, pageSize: number = 5): Observable<PaginatedResponse<any>> {
+    const params = new HttpParams().set('pageNumber', pageNumber.toString()).set('pageSize', pageSize.toString());
+    return this.http.get<PaginatedResponse<any>>('http://localhost:5065/api/service/my-services', { headers: this.getAuthHeaders(), params });
   }
 
-  getServiceOrders(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:5065/api/service/my-services', { headers: this.getAuthHeaders() });
-  }
+}
+
+interface PaginatedResponse<T> {
+  items: T[];
+  totalCount: number;
 }

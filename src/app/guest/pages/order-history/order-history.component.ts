@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { OrderService } from '../../../services/order/order.service';
 import { RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-order-history',
@@ -15,13 +16,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     CommonModule,
     MatButtonModule,
     MatCardModule,
-    RouterModule
+    RouterModule,
+    MatPaginatorModule
   ],
   providers: [OrderService]
 })
 export class OrderHistoryComponent implements OnInit {
   orders: any[] = [];
   selectedCategory: string = 'food';
+  pageNumber: number = 1;
+  pageSize: number = 5;
+  totalOrders: number = 0;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -33,10 +38,13 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   loadOrders(): void {
-    const orderObservable = this.selectedCategory === 'food' ? this.orderService.getFoodOrders() : this.orderService.getServiceOrders();
+    const orderObservable = this.selectedCategory === 'food' ? 
+      this.orderService.getFoodOrders(this.pageNumber, this.pageSize) : 
+      this.orderService.getServiceOrders(this.pageNumber, this.pageSize);
     orderObservable.subscribe({
       next: data => {
-        this.orders = data.sort((a, b) => b.serviceId - a.serviceId);
+        this.orders = data.items;
+        this.totalOrders = data.totalCount;
       },
       error: () => {
         this.snackBar.open('Failed to load orders. Please try again.', 'Close', {
@@ -48,6 +56,14 @@ export class OrderHistoryComponent implements OnInit {
 
   showCategory(category: string): void {
     this.selectedCategory = category;
+    this.loadOrders();
+  }
+
+  onPageChange(event: any): void {
+    
+    this.pageNumber = event.pageIndex + 1;
+    this.pageSize = event.pageSize;
+    console.log(this.pageNumber, this.pageSize);
     this.loadOrders();
   }
 }

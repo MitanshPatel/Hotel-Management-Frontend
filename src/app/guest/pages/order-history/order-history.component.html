@@ -1,21 +1,23 @@
 <div class="p-6 max-w-7xl mx-auto bg-white rounded-xl shadow-md space-y-6 mt-6">
-    <h2 class="!text-3xl !font-bold !text-center">Order History</h2>
-    <div class="flex justify-center space-x-4 mb-6">
-      <button mat-raised-button color="primary" (click)="showCategory('food')">Food</button>
-      <button mat-raised-button color="primary" (click)="showCategory('services')">Services</button>
-    </div>
-    <div *ngFor="let order of orders" class="p-4 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
-      <mat-card class="order-card">
-        <mat-card-header>
-          <mat-card-title class="!text-xl !font-bold !text-gray-800">Order #{{ order.serviceId }}</mat-card-title>
-          <mat-card-subtitle class="!text-gray-600">Room ID: {{ order.roomId }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p class="!text-gray-600"><strong>Type:</strong> {{ order.serviceType }}</p>
-          <p class="!text-gray-600"><strong>Status:</strong> <span [ngClass]="{'text-green-600': order.status === 'Completed', 'text-yellow-600': order.status === 'Pending', 'text-red-600': order.status === 'Cancelled'}">{{ order.status }}</span></p>
-          <p class="!text-gray-600"><strong>Request Time:</strong> {{ order.requestTime | date: 'short' }}</p>
-          <p class="!text-gray-600" *ngIf="order.deliveryTime"><strong>Delivery Time:</strong> {{ order.deliveryTime | date: 'short' }}</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+  <h2 class="!text-3xl !font-bold !text-center">Order History</h2>
+  <div class="flex justify-center space-x-4 mb-6">
+    <button mat-raised-button color="primary" (click)="showCategory('food')">Food</button>
+    <button mat-raised-button color="primary" (click)="showCategory('services')">Services</button>
   </div>
+  <div *ngFor="let order of orders" class="p-4 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+    <mat-card class="order-card">
+      <mat-card-header>
+        <mat-card-title class="!text-xl !font-bold !text-gray-800">Order #{{ order.serviceId }}</mat-card-title>
+        <mat-card-subtitle class="!text-gray-600">Room ID: {{ order.roomId }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="!text-gray-600"><strong>Type:</strong> {{ order.serviceType }}</p>
+        <p class="!text-gray-600"><strong>Status:</strong> <span [ngClass]="{'text-green-600': order.status === 'Completed', 'text-yellow-600': order.status === 'Pending', 'text-red-600': order.status === 'Cancelled'}">{{ order.status }}</span></p>
+        <p class="!text-gray-600"><strong>Request Time:</strong> {{ order.requestTime | date: 'short' }}</p>
+        <p class="!text-gray-600" *ngIf="order.deliveryTime"><strong>Delivery Time:</strong> {{ order.deliveryTime | date: 'short' }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <mat-paginator [length]="totalOrders" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20]" (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

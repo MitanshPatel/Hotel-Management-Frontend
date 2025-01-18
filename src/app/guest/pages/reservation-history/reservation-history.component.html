@@ -52,16 +52,17 @@
 
       <mat-card-actions align="end" class="mt-2 gap-4">
         <button mat-raised-button color="accent"
-          *ngIf="reservation.status === 'Approved' && reservation.paymentStatus !== 'Successful'"
+          *ngIf="reservation.status === 'Approved' && reservation.paymentStatus !== 'Successful' && isBeforeToday(reservation.checkInDate)"
           (click)="makePayment(reservation)">
           Make Payment
         </button>
-        <button mat-raised-button color="warn" *ngIf="reservation.status !== 'Cancelled'"
+        <button mat-raised-button color="warn"
+          *ngIf="reservation.status !== 'Cancelled' && isBeforeToday(reservation.checkInDate)"
           (click)="cancelReservation(reservation)">
           Cancel
         </button>
         <button mat-raised-button color="primary"
-          *ngIf="reservation.status === 'Approved' && reservation.paymentStatus === 'Successful' && currentDate < parseDate(reservation.checkInDate)"
+          *ngIf="reservation.status === 'Approved' && reservation.paymentStatus === 'Successful' && isBetweenDates(reservation.checkInDate, reservation.checkOutDate)"
           (click)="orderFood(reservation.reservationId)">
           Order Food
         </button>

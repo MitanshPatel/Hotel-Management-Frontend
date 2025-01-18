@@ -103,14 +103,22 @@ export class RoomDetailsComponent implements OnInit {
   checkAvailability(): void {
     const checkInDateTime = `${this.checkInDate}T${this.formatTime(this.checkInTime)}`;
     const checkOutDateTime = `${this.checkOutDate}T${this.formatTime(this.checkOutTime)}`;
-
+    const currentDateTime = new Date();
+  
     if (new Date(checkOutDateTime) <= new Date(checkInDateTime)) {
       this.snackBar.open('Check-out date and time must be after check-in date and time.', 'Close', {
         duration: 3000,
       });
       return;
     }
-
+  
+    if (new Date(checkInDateTime) <= currentDateTime) {
+      this.snackBar.open('Check-in date and time must be after the current date and time.', 'Close', {
+        duration: 3000,
+      });
+      return;
+    }
+  
     this.reservationService.checkRoomAvailability(this.room.roomId, checkInDateTime, checkOutDateTime).subscribe(response => {
       if (response.isAvailable) {
         this.snackBar.open('The room is available for the selected time.', 'Close', {
@@ -130,18 +138,26 @@ export class RoomDetailsComponent implements OnInit {
       }
     });
   }
-
+  
   reserveRoom(): void {
     const checkInDateTime = `${this.checkInDate}T${this.formatTime(this.checkInTime)}`;
     const checkOutDateTime = `${this.checkOutDate}T${this.formatTime(this.checkOutTime)}`;
-
+    const currentDateTime = new Date();
+  
     if (new Date(checkOutDateTime) <= new Date(checkInDateTime)) {
       this.snackBar.open('Check-out date and time must be after check-in date and time.', 'Close', {
         duration: 3000,
       });
       return;
     }
-
+  
+    if (new Date(checkInDateTime) <= currentDateTime) {
+      this.snackBar.open('Check-in date and time must be after the current date and time.', 'Close', {
+        duration: 3000,
+      });
+      return;
+    }
+  
     this.reservationService.checkRoomAvailability(this.room.roomId, checkInDateTime, checkOutDateTime).subscribe(response => {
       if (response.isAvailable) {
         const guestId = this.authService.currentUserValue.userId;
@@ -160,7 +176,7 @@ export class RoomDetailsComponent implements OnInit {
           specialRequests: '',
           totalAmount: totalAmount
         };
-
+  
         this.reservationService.createReservation(reservation).subscribe({
           next: () => {
             this.snackBar.open('Reservation successful. Please wait for hotel approval.', 'Close', {

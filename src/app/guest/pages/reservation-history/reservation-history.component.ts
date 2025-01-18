@@ -117,4 +117,14 @@ export class ReservationHistoryComponent implements OnInit {
     const [day, month, year, time] = dateString.split(/[-\s:]/);
     return new Date(`${year}-${month}-${day}`);
   }
+
+  isBeforeToday(dateString: string): boolean {
+    return this.parseDate(dateString) > this.currentDate;
+  }
+
+  isBetweenDates(startDateString: string, endDateString: string): boolean {
+    const startDate = this.parseDate(startDateString);
+    const endDate = this.parseDate(endDateString);
+    return this.currentDate >= startDate && this.currentDate <= endDate;
+  }
 }
